@@ -6,12 +6,7 @@
 #include "Secret.h"
  
 #define TIME_ZONE +1
- 
-#define RELAY1 16 // change these pins according to your setup
-#define RELAY2 14
-#define RELAY3 12
-#define RELAY4 10
- 
+
 unsigned long lastMillis = 0;
 unsigned long previousMillis = 0;
 const long interval = 5000;
@@ -36,7 +31,7 @@ DHT dht(2, DHT11);
 float h = 0;
 float t = 0;
 
-char received_msg[100] ;
+char received_msg[10] ;
  
 void NTPConnect(void)
 {
@@ -61,15 +56,12 @@ void messageReceived(char *topic, byte *payload, unsigned int length)
   Serial.print("Received [");
   Serial.print(topic);
   Serial.print("]: ");
-  String received_msg = "";
   for (int i = 0; i < length; i++)
   {
-    received_msg += (char)payload[i]; // Append the payload into string
+    // Append the payload into string
     Serial.print((char)payload[i]);
     received_msg[i] = (char)payload[i] ;
   }
-
-
 }
  
 void connectAWS()
@@ -162,7 +154,6 @@ void loop()
       Serial.println(h);
       Serial.print("Temperature: ");
       Serial.println(t);
-
 
       lastMillis = millis();
       publishMessage();
